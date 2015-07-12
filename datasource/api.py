@@ -1,7 +1,7 @@
 __author__ = 'Francesco Infante'
 
 
-class Source(object):
+class DataSource(object):
     def next(self):
         raise NotImplementedError()
 

@@ -2,10 +2,10 @@ __author__ = 'Francesco Infante'
 
 import json
 
-from api import Source
+from api import DataSource
 
 
-class JSONSource(Source):
+class JSONSource(DataSource):
     """
     Read from a file where each line is a document represented as a JSON object
     """
