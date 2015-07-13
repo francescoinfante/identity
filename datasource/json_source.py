@@ -1,6 +1,6 @@
 __author__ = 'Francesco Infante'
 
-import json
+import ujson
 
 from api import DataSource
 
@@ -14,4 +14,4 @@ class JSONSource(DataSource):
         self.file = open(filename)
 
     def next(self):
-        return json.loads(self.file.next())
+        return ujson.loads(self.file.next())
