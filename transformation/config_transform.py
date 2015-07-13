@@ -3,7 +3,6 @@ __author__ = 'Francesco Infante'
 import dpath.util
 
 from api import Transformation
-
 from common import Configuration, Call, Path
 
 
@@ -33,3 +32,6 @@ class ConfigTransform(Transformation):
 
     def next(self):
         return self._transform(self.source.next())
+
+    def __len__(self):
+        return len(self.source)
