@@ -6,7 +6,7 @@ class Configuration(object):
         self.rules = rules
 
 
-class Call(object):
+class Apply(object):
     def __init__(self, function, *args, **kwargs):
         self.function = function
         self.args = args
