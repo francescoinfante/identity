@@ -1,9 +1,30 @@
 __author__ = 'Francesco Infante'
 
+import multiprocessing
+from multiprocessing import Pool
+from itertools import izip, repeat
+
 import dpath.util
 
 from api import Transformation
-from common import Configuration, Call, Path
+from common import Configuration, Apply, Path
+
+
+def _transform(args):
+    data = args[0]
+    config = args[1]
+
+    result = config
+    if isinstance(config, Configuration):
+        result = {k: _transform((data, v)) for k, v in config.rules.iteritems()}
+    elif isinstance(config, Apply):
+        args = [_transform((data, v)) for v in config.args]
+        kwargs = {k: _transform((data, v)) for k, v in config.kwargs.iteritems()}
+        result = config.function(*args, **kwargs)
+    elif isinstance(config, Path):
+        result = dpath.util.get(data, config.path)
+
+    return result
 
 
 class ConfigTransform(Transformation):
@@ -11,27 +32,12 @@ class ConfigTransform(Transformation):
     Apply the configuration to each entry of the source
     """
 
-    def __init__(self, source, config):
-        self.source = source
-        self.config = config
-
-    def _transform(self, data, config=None):
-        if config is None:
-            config = self.config
-
-        if isinstance(config, Configuration):
-            return {k: self._transform(data, v) for k, v in config.rules.iteritems()}
-        elif isinstance(config, Call):
-            args = [self._transform(data, v) for v in config.args]
-            kwargs = {k: self._transform(data, v) for k, v in config.kwargs.iteritems()}
-            return config.function(*args, **kwargs)
-        elif isinstance(config, Path):
-            return dpath.util.get(data, config.path)
-
-        return config
+    def __init__(self, source, config, processes=multiprocessing.cpu_count()):
+        self.pool = Pool(processes)
+        self.results = self.pool.imap(_transform, izip(source, repeat(config)))
 
     def next(self):
-        return self._transform(self.source.next())
+        return self.results.next()
 
-    def __len__(self):
-        return len(self.source)
+    def __del__(self):
+        self.pool.close()
