@@ -2,7 +2,7 @@ __author__ = 'Francesco Infante'
 
 
 class FeaturesExtraction(object):
-    def __init__(self, pairs, *features):
+    def __init__(self, pairs, features):
         self.pairs = pairs
         self.features = features
 
