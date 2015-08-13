@@ -25,14 +25,14 @@ def hash_family(n):
 
 class MinHash(Blocking):
     """
-    Algorithm based on (Broder, 1997).
+    Algorithm based on Broder et al. (1998); Rajaraman et al. (2012).
 
-    It takes as arguments the documents and the attribute (instance of Path) on which to apply the minHash algorithm.
-    It also takes the number of bands and rows.
+    It takes as arguments the documents, the attribute (instance of Path) on which to compute the sketch,
+    the number of bands and the number of rows.
 
     The attribute must be a set.
 
-    It returns all the pairs within a bucket (Non-disjoint blocking).
+    It returns all the pairs that match on at least one band (Non-disjoint blocking).
     """
 
     def __init__(self, source, attribute, bands, rows):
@@ -65,8 +65,7 @@ class MinHash(Blocking):
                 else:
                     buckets[s] = [e]
             for k in buckets:
-                l = buckets[k]
-                for pair in itertools.combinations(l, 2):
+                for pair in itertools.combinations(buckets[k], 2):
                     if (pair[1], pair[0]) not in self._pairs:
                         pairs.add(pair)
 
