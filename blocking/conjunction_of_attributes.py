@@ -16,18 +16,18 @@ class ConjunctionOfAttributes(Blocking):
     """
 
     def __init__(self, source, attributes):
-        self._buckets = {}
+        buckets = {}
         for e in source:
             tmp = []
             for a in attributes:
                 tmp.append(dpath.util.get(e, a.path))
             h = hash(tuple(tmp))
-            if h in self._buckets:
-                self._buckets[h].append(e)
+            if h in buckets:
+                buckets[h].append(e)
             else:
-                self._buckets[h] = [e]
+                buckets[h] = [e]
 
-        self._pairs = itertools.chain(*[v for _, v in self._buckets.iteritems()])
+        self._pairs = itertools.chain(*[v for _, v in buckets.iteritems()])
 
     def next(self):
         return self._pairs.next()
