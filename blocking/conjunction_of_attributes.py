@@ -12,7 +12,7 @@ class ConjunctionOfAttributes(Blocking):
     It takes as arguments the documents and a list of attributes (instances of Path).
     Attributes must be hashables.
     It hashes the conjunction of attributes of each document and put the document in the bucket for that hash.
-    It returns all the pairs within a bucket.
+    It returns all the pairs within a bucket (Disjoint blocking).
     """
 
     def __init__(self, source, attributes):
