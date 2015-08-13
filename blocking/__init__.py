@@ -1,6 +1,9 @@
 __author__ = 'Francesco Infante'
 
 from all_pairs import AllPairs
+from canopy_clustering import CanopyClustering
+from min_hash import MinHash
+from sorted_neighbourhood import SortedNeighbourhood
 
 
 class MultipleBlocking(object):
