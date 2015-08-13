@@ -7,7 +7,7 @@ from api import Blocking
 
 class AllPairs(Blocking):
     """
-    It returns all the possible combinations.
+    It returns all the possible combinations of documents.
     """
 
     def __init__(self, source):

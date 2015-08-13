@@ -4,6 +4,7 @@ from all_pairs import AllPairs
 from canopy_clustering import CanopyClustering
 from min_hash import MinHash
 from sorted_neighbourhood import SortedNeighbourhood
+from conjunction_of_attributes import ConjunctionOfAttributes
 
 
 class MultipleBlocking(object):
