@@ -6,8 +6,12 @@ from api import Blocking
 
 
 class AllPairs(Blocking):
-    def __init__(self, pairs):
-        self.pairs = combinations(pairs, 2)
+    """
+    It returns all the possible combinations.
+    """
+
+    def __init__(self, source):
+        self._pairs = combinations(source, 2)
 
     def next(self):
-        return self.pairs.next()
+        return self._pairs.next()
