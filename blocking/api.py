@@ -1,7 +1,7 @@
 __author__ = 'Francesco Infante'
 
 
-class Block(object):
+class Blocking(object):
     def next(self):
         raise NotImplementedError()
 
