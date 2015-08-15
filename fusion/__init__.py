@@ -62,7 +62,8 @@ if __name__ == "__main__":
                      'actors': ['Keanu Reeves', 'Laurence Fishburne']},
                     {'title': 'Matrix', 'director': 'Wachowski Brothers'})]
 
-    c = Configuration(title=(Vote(), Longest()), director=(Vote(), Longest()), year=(Vote(), Random()), actors=Group())
+    c = Configuration(title=(Vote(), Longest()), director=(Vote(), Longest()), year=(Vote(), Escalate()),
+                      actors=Group())
 
     for i in DataFusion(test_sample, c):
         print i
