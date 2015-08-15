@@ -104,3 +104,18 @@ class Escalate(ConflictResolutionFunction):
             return r[0]
         if len(r) > 1:
             return r
+
+
+class MostRecent(ConflictResolutionFunction):
+    def __init__(self, date_field):
+        self.date_field = date_field
+
+    def resolve(self, conflict_data, all_data):
+        dates = extract_from_tuple(all_data, self.date_field)
+        result = conflict_data[0]
+        last_date = dates[0]
+        for x in range(0, len(dates)):
+            if dates[x] > last_date and conflict_data[x] is not None:
+                result = conflict_data[x]
+                last_date = dates[x]
+        return result

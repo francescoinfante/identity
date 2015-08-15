@@ -4,9 +4,9 @@ import multiprocessing
 from multiprocessing import Pool
 from itertools import izip, repeat
 
-from common import Configuration, extract_from_tuple
+from common import extract_from_tuple
 from conflict_resolution_functions import Min, Max, Sum, Count, Avg, Random, Longest, Shortest, Choose, Vote, Group, \
-    Escalate
+    Escalate, MostRecent
 
 
 def _merge_records(args):
@@ -58,6 +58,9 @@ class DataFusion(object):
 
 
 if __name__ == "__main__":
+    import datetime
+    from common import Configuration
+
     test_sample = [({'title': 'V per vendetta', 'year': 2005, 'director': 'James McTeigue'},
                     {'title': 'V for vendetta', 'director': 'J. McTeigue'}),
                    ({'title': 'Maatrix', 'year': 1998, 'director': 'The Wachowskis',
@@ -69,6 +72,14 @@ if __name__ == "__main__":
     c = Configuration(title=(Vote(), Longest()), director=(Vote(), Longest()),
                       year=(Choose('source', 'imdb'), Vote(), Escalate()),
                       actors=Group())
+
+    for i in DataFusion(test_sample, c):
+        print i
+
+    test_sample = [
+        ({'test': 'a', 'date': datetime.date(2015, 1, 9)}, {'test': 'b', 'date': datetime.date(2015, 1, 10)})]
+
+    c = Configuration(test=MostRecent('date'))
 
     for i in DataFusion(test_sample, c):
         print i
