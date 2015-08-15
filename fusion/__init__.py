@@ -12,6 +12,10 @@ from conflict_resolution_functions import Min, Max, Sum, Count, Avg, Random, Lon
 def _merge_records(args):
     data = args[0]
     config = args[1]
+    if len(args) > 2:
+        all_data = args[2]
+    else:
+        all_data = data
 
     if len(data) == 1:
         return data[0]
@@ -20,14 +24,14 @@ def _merge_records(args):
 
     for k, v in config.iteritems():
         if isinstance(v, dict):
-            result[k] = _merge_records((extract_from_tuple(data, k), v))
+            result[k] = _merge_records((extract_from_tuple(data, k), v, all_data))
         elif isinstance(v, tuple):
             for x in v:
-                result[k] = x.resolve(extract_from_tuple(data, k), data)
+                result[k] = x.resolve(extract_from_tuple(data, k), all_data)
                 if result[k] is not None:
                     break
         else:
-            result[k] = v.resolve(extract_from_tuple(data, k), data)
+            result[k] = v.resolve(extract_from_tuple(data, k), all_data)
 
     return result
 
@@ -56,13 +60,14 @@ class DataFusion(object):
 if __name__ == "__main__":
     test_sample = [({'title': 'V per vendetta', 'year': 2005, 'director': 'James McTeigue'},
                     {'title': 'V for vendetta', 'director': 'J. McTeigue'}),
-                   ({'title': 'Maatrix', 'year': 1999, 'director': 'The Wachowskis',
+                   ({'title': 'Maatrix', 'year': 1998, 'director': 'The Wachowskis',
                      'actors': ['Keanu Reeves', 'Carrie-Anne Moss']},
-                    {'title': 'The Matrix', 'year': 1998, 'director': 'The Wachowskis',
+                    {'source': 'imdb', 'title': 'The Matrix', 'year': 1999, 'director': 'The Wachowskis',
                      'actors': ['Keanu Reeves', 'Laurence Fishburne']},
                     {'title': 'Matrix', 'director': 'Wachowski Brothers'})]
 
-    c = Configuration(title=(Vote(), Longest()), director=(Vote(), Longest()), year=(Vote(), Escalate()),
+    c = Configuration(title=(Vote(), Longest()), director=(Vote(), Longest()),
+                      year=(Choose('source', 'imdb'), Vote(), Escalate()),
                       actors=Group())
 
     for i in DataFusion(test_sample, c):
