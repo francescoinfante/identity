@@ -1,5 +1,7 @@
 __author__ = 'Francesco Infante'
 
+from string_metrics import Levenshtein
+
 
 class FeaturesExtraction(object):
     def __init__(self, pairs, features):

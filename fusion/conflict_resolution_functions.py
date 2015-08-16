@@ -1,7 +1,8 @@
 __author__ = 'Francesco Infante'
 
-import random
+from random import choice
 from collections import Counter
+from itertools import combinations
 
 from api import ConflictResolutionFunction
 from common import extract_from_tuple
@@ -43,7 +44,7 @@ class Random(ConflictResolutionFunction):
     def resolve(self, data, _):
         data = [x for x in data if x is not None]
         if len(data) > 0:
-            return random.choice(data)
+            return choice(data)
 
 
 class Longest(ConflictResolutionFunction):
@@ -119,3 +120,27 @@ class MostRecent(ConflictResolutionFunction):
                 result = conflict_data[x]
                 last_date = dates[x]
         return result
+
+
+class HighestAverageSimilarity(ConflictResolutionFunction):
+    def __init__(self, similarity_metric, distance=False):
+        self.similarity_metric = similarity_metric
+        self.distance = distance
+
+    def resolve(self, data, _):
+        data = [x for x in data if x is not None]
+        if len(data) == 1:
+            return data[0]
+        if len(data) > 1:
+            averages = Counter()
+
+            for x, y in combinations(data, 2):
+                similarity = self.similarity_metric.extract(x, y)
+                averages[x] += similarity
+                averages[y] += similarity
+
+            most_common = averages.most_common()
+            if self.distance:
+                return most_common[-1][0]
+            else:
+                return most_common[0][0]

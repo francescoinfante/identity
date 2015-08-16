@@ -2,8 +2,5 @@ __author__ = 'Francesco Infante'
 
 
 class Feature(object):
-    def prefix(self):
-        raise NotImplementedError()
-
-    def extract(self, pair):
+    def extract(self, x, y):
         raise NotImplementedError()

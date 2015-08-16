@@ -1,12 +1,11 @@
 __author__ = 'Francesco Infante'
 
-import multiprocessing
-from multiprocessing import Pool
+from multiprocessing import Pool, cpu_count
 from itertools import izip, repeat
 
 from common import extract_from_tuple
 from conflict_resolution_functions import Min, Max, Sum, Count, Avg, Random, Longest, Shortest, Choose, Vote, Group, \
-    Escalate, MostRecent
+    Escalate, MostRecent, HighestAverageSimilarity
 
 
 def _merge_records(args):
@@ -43,7 +42,7 @@ class DataFusion(object):
         config (Configuration): configuration to apply to each tuple
     """
 
-    def __init__(self, source, config, processes=multiprocessing.cpu_count()):
+    def __init__(self, source, config, processes=cpu_count()):
         self._pool = Pool(processes)
         self._results = self._pool.imap(_merge_records, izip(source, repeat(config)))
 
@@ -59,6 +58,7 @@ class DataFusion(object):
 
 if __name__ == "__main__":
     from common import Configuration
+    from feature import Levenshtein
 
     sample = [({'title': 'Maatrix', 'year': 1998, 'director': 'The Wachowskis',
                 'actors': ['Keanu Reeves', 'Carrie-Anne Moss']},
@@ -69,5 +69,11 @@ if __name__ == "__main__":
 
     c = Configuration(title=(Vote(), Longest()), director=(Vote(), Longest()),
                       year=(Choose('source', 'imdb'), Vote(), Escalate()), actors=Group())
+
+    print DataFusion(sample, c).next()
+
+    sample = [({'title': 'Maatrix'}, {'title': 'Matrix'}, {'title', 'Matrixx'})]
+
+    c = Configuration(title=(HighestAverageSimilarity(Levenshtein(), distance=True)))
 
     print DataFusion(sample, c).next()
