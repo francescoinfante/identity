@@ -74,6 +74,6 @@ if __name__ == "__main__":
 
     sample = [({'title': 'Maatrix'}, {'title': 'Matrix'}, {'title', 'Matrixx'})]
 
-    c = Configuration(title=(HighestAverageSimilarity(Levenshtein(), distance=True)))
+    c = Configuration(title=HighestAverageSimilarity(Levenshtein(), distance=True))
 
     print DataFusion(sample, c).next()
