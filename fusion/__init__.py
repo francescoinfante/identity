@@ -58,28 +58,16 @@ class DataFusion(object):
 
 
 if __name__ == "__main__":
-    import datetime
     from common import Configuration
 
-    test_sample = [({'title': 'V per vendetta', 'year': 2005, 'director': 'James McTeigue'},
-                    {'title': 'V for vendetta', 'director': 'J. McTeigue'}),
-                   ({'title': 'Maatrix', 'year': 1998, 'director': 'The Wachowskis',
-                     'actors': ['Keanu Reeves', 'Carrie-Anne Moss']},
-                    {'source': 'imdb', 'title': 'The Matrix', 'year': 1999, 'director': 'The Wachowskis',
-                     'actors': ['Keanu Reeves', 'Laurence Fishburne']},
-                    {'title': 'Matrix', 'director': 'Wachowski Brothers'})]
+    sample = [({'title': 'Maatrix', 'year': 1998, 'director': 'The Wachowskis',
+                'actors': ['Keanu Reeves', 'Carrie-Anne Moss']},
+               {'source': 'imdb', 'title': 'The Matrix', 'year': 1999,
+                'director': 'Wachowskis', 'actors': ['Keanu Reeves']},
+               {'title': 'The Matrix', 'year': 1998,
+                'director': 'Wachowski Brothers'})]
 
     c = Configuration(title=(Vote(), Longest()), director=(Vote(), Longest()),
-                      year=(Choose('source', 'imdb'), Vote(), Escalate()),
-                      actors=Group())
+                      year=(Choose('source', 'imdb'), Vote(), Escalate()), actors=Group())
 
-    for i in DataFusion(test_sample, c):
-        print i
-
-    test_sample = [
-        ({'test': 'a', 'date': datetime.date(2015, 1, 9)}, {'test': 'b', 'date': datetime.date(2015, 1, 10)})]
-
-    c = Configuration(test=MostRecent('date'))
-
-    for i in DataFusion(test_sample, c):
-        print i
+    print DataFusion(sample, c).next()
