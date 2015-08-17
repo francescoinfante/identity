@@ -62,10 +62,10 @@ class JoinBlocks(object):
 
 
 if __name__ == "__main__":
-    sample = [{'test': 1}, {'test': 2}, {'test': 3}, {'test': 4}, {'test': 5}]
-    sample_2 = [{'test': 2}, {'test': 1}, {'test': 3}]
+    sample = [{'key': 1, 'year': 2012}, {'key': 2, 'year': 2012}, {'key': 3, 'year': 2013}, {'key': 4, 'year': 2014},
+              {'key': 5, 'year': 2014}]
 
-    mb = MultipleBlocking([AllPairs(sample), AllPairs(sample_2)])
+    mb = MultipleBlocking([ConjunctionOfAttributes(sample, ['year'])])
 
-    for x in JoinBlocks(mb, 'test'):
+    for x in JoinBlocks(mb, 'key'):
         print x
