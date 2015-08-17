@@ -71,13 +71,13 @@ class Shortest(ConflictResolutionFunction):
 
 class Choose(ConflictResolutionFunction):
     def __init__(self, source_field, source_value):
-        self.source_field = source_field
-        self.source_value = source_value
+        self._source_field = source_field
+        self._source_value = source_value
 
     def resolve(self, conflict_data, all_data):
-        sources = extract_from_tuple(all_data, self.source_field)
+        sources = extract_from_tuple(all_data, self._source_field)
         for x in range(0, len(sources)):
-            if sources[x] == self.source_value:
+            if sources[x] == self._source_value:
                 return conflict_data[x]
 
 
@@ -109,10 +109,10 @@ class Escalate(ConflictResolutionFunction):
 
 class MostRecent(ConflictResolutionFunction):
     def __init__(self, date_field):
-        self.date_field = date_field
+        self._date_field = date_field
 
     def resolve(self, conflict_data, all_data):
-        dates = extract_from_tuple(all_data, self.date_field)
+        dates = extract_from_tuple(all_data, self._date_field)
         result = conflict_data[0]
         last_date = dates[0]
         for x in range(0, len(dates)):
