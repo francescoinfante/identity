@@ -3,6 +3,7 @@ __author__ = 'Francesco Infante'
 from multiprocessing import Pool, cpu_count
 from itertools import izip, repeat
 
+from api import ConflictResolutionFunction
 from common import extract_from_tuple
 from conflict_resolution_functions import Min, Max, Sum, Count, Avg, Random, Longest, Shortest, Choose, Vote, Group, \
     Escalate, MostRecent, HighestAverageSimilarity
