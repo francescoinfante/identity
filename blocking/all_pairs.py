@@ -6,12 +6,8 @@ from api import Blocking
 
 
 class AllPairs(Blocking):
-    """
-    It returns all the possible combinations of documents.
-    """
-
     def __init__(self, source):
-        self._pairs = combinations(source, 2)
+        self._blocks = iter([combinations(source, 2)])
 
     def next(self):
-        return self._pairs.next()
+        return self._blocks.next()
