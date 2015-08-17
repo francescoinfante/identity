@@ -2,6 +2,7 @@ __author__ = 'Francesco Infante'
 
 from multiprocessing import Pool, cpu_count
 from itertools import izip, repeat
+from inspect import isclass
 
 from api import ConflictResolutionFunction
 from common import extract_from_tuple
@@ -27,10 +28,14 @@ def _merge_records(args):
             result[k] = _merge_records((extract_from_tuple(data, k), v, all_data))
         elif isinstance(v, tuple):
             for x in v:
+                if isclass(x):
+                    x = x()
                 result[k] = x.resolve(extract_from_tuple(data, k), all_data)
                 if result[k] is not None:
                     break
         else:
+            if isclass(v):
+                v = v()
             result[k] = v.resolve(extract_from_tuple(data, k), all_data)
 
     return result
@@ -68,13 +73,13 @@ if __name__ == "__main__":
                {'title': 'The Matrix', 'year': 1998,
                 'director': 'Wachowski Brothers'})]
 
-    c = Configuration(title=(Vote(), Longest()), director=(Vote(), Longest()),
-                      year=(Choose('source', 'imdb'), Vote(), Escalate()), actors=Group())
+    c = Configuration(title=(Vote, Longest), director=(Vote, Longest),
+                      year=(Choose('source', 'imdb'), Vote, Escalate), actors=Group)
 
     print DataFusion(sample, c).next()
 
     sample = [({'title': 'Maatrix'}, {'title': 'Matrix'}, {'title', 'Matrixx'})]
 
-    c = Configuration(title=HighestAverageSimilarity(Levenshtein(), distance=True))
+    c = Configuration(title=HighestAverageSimilarity(Levenshtein, distance=True))
 
     print DataFusion(sample, c).next()

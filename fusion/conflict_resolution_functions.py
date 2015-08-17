@@ -3,6 +3,7 @@ __author__ = 'Francesco Infante'
 from random import choice
 from collections import Counter
 from itertools import combinations
+from inspect import isclass
 
 from api import ConflictResolutionFunction
 from common import extract_from_tuple
@@ -124,6 +125,8 @@ class MostRecent(ConflictResolutionFunction):
 
 class HighestAverageSimilarity(ConflictResolutionFunction):
     def __init__(self, similarity_metric, distance=False):
+        if isclass(similarity_metric):
+            similarity_metric = similarity_metric()
         self.similarity_metric = similarity_metric
         self.distance = distance
 
