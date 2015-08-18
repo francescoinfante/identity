@@ -1,53 +1,52 @@
 __author__ = 'Francesco Infante'
 
 import random
-import sys
-import itertools
+import string
+import hashlib
+from itertools import combinations
 
 import dpath.util
 
 from api import Blocking
 
-_memo_mask = {}
 
+class HashFamily(object):
+    def __init__(self, size):
+        self._salt = [''.join(random.choice(string.ascii_uppercase) for _ in range(5)) for _ in range(size)]
 
-def hash_family(n):
-    mask = _memo_mask.get(n)
-    if mask is None:
-        random.seed(n)
-        mask = _memo_mask[n] = random.getrandbits(64)
+    def __getitem__(self, k):
+        if k >= len(self._salt):
+            raise IndexError()
+        return lambda x: hashlib.sha1(str(x) + self._salt[k]).hexdigest()[-8:].zfill(8)
 
-    def hash_function(x):
-        return hash(x) ^ mask
-
-    return hash_function
+    @staticmethod
+    def max_value():
+        return 'ffffffff'
 
 
 class MinHash(Blocking):
     """
     Algorithm based on Broder et al. (1998); Rajaraman et al. (2012).
 
-    It takes as arguments the documents, the attribute (instance of Path) on which to compute the sketch,
-    the number of bands and the number of rows.
-
-    The attribute must be a set.
-
-    It returns all the pairs that match on at least one band (Non-disjoint blocking).
+    Args:
+        source (list(dict)): list of records
+        attribute (Path): attribute (a set) used to compute the sketch
+        bands (int): number of bands for LSH
+        rows (int): number of rows for LSH
     """
 
     def __init__(self, source, attribute, bands, rows):
-        n = bands * rows
-        pairs = set()
+        hash_family = HashFamily(bands * rows)
         sketches = []
+        buckets = {}
 
         for e in source:
-            s = dpath.util.get(e, attribute.path)
+            s = dpath.util.get(e, attribute)
 
             sketch = []
 
-            for x in range(0, n):
-                hash_function = hash_family(x)
-                current_min = sys.maxint
+            for hash_function in hash_family:
+                current_min = HashFamily.max_value()
                 for y in s:
                     current_min = min(current_min, hash_function(y))
                 sketch.append(str(current_min))
@@ -55,21 +54,22 @@ class MinHash(Blocking):
             sketches.append((e, sketch))
 
         for b in range(0, bands):
-            buckets = {}
+            tmp_buckets = {}
             for e, sketch in sketches:
                 s = ""
                 for x in range(0, rows):
                     s += sketch[b * rows + x]
-                if s in buckets:
-                    buckets[s].append(e)
+                if s in tmp_buckets:
+                    tmp_buckets[s].append(e)
                 else:
-                    buckets[s] = [e]
-            for k in buckets:
-                for pair in itertools.combinations(buckets[k], 2):
-                    if (pair[1], pair[0]) not in self._pairs:
-                        pairs.add(pair)
+                    tmp_buckets[s] = [e]
+            for k, v in tmp_buckets.iteritems():
+                buckets[str(b) + k] = v
 
-        self._pairs = iter(pairs)
+        for k, v in buckets.iteritems():
+            buckets[k] = combinations(v, 2)
+
+        self._buckets = buckets.itervalues()
 
     def next(self):
-        return self._pairs.next()
+        return self._buckets.next()
