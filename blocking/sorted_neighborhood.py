@@ -2,7 +2,7 @@ __author__ = 'Francesco Infante'
 
 from itertools import combinations
 
-import dpath.util
+from dpath import util
 
 from api import Blocking
 
@@ -20,7 +20,7 @@ class SortedNeighborhood(Blocking):
     def __init__(self, source, key, window_size):
         l = []
         for e in source:
-            key_value = dpath.util.get(e, key)
+            key_value = util.get(e, key)
             l.append((key_value, e))
         ordered_list = sorted(l)
         buckets = {}

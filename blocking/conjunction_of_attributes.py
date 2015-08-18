@@ -2,7 +2,7 @@ __author__ = 'Francesco Infante'
 
 from itertools import combinations
 
-import dpath.util
+from dpath import util
 
 from api import Blocking
 
@@ -20,7 +20,7 @@ class ConjunctionOfAttributes(Blocking):
             tmp = []
             for a in attributes:
                 try:
-                    tmp.append(dpath.util.get(e, a))
+                    tmp.append(util.get(e, a))
                 except:
                     tmp.append(None)
             h = hash(tuple(tmp))

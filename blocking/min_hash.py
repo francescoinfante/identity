@@ -5,7 +5,7 @@ from string import ascii_uppercase
 from hashlib import sha1
 from itertools import combinations
 
-import dpath.util
+from dpath import util
 
 from api import Blocking
 
@@ -41,7 +41,7 @@ class MinHash(Blocking):
         buckets = {}
 
         for e in source:
-            s = dpath.util.get(e, attribute)
+            s = util.get(e, attribute)
 
             sketch = []
 
