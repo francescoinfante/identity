@@ -12,7 +12,7 @@ from api import Blocking
 
 class HashFamily(object):
     def __init__(self, size):
-        self._salt = [''.join(random.choice(string.ascii_uppercase) for _ in range(5)) for _ in range(size)]
+        self._salt = [(''.join(random.choice(string.ascii_uppercase) for _ in range(5))) for _ in range(size)]
 
     def __getitem__(self, k):
         if k >= len(self._salt):
