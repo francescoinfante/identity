@@ -62,10 +62,23 @@ class JoinBlocks(object):
 
 
 if __name__ == "__main__":
-    sample = [{'key': 1, 'year': 2012}, {'key': 2, 'year': 2012}, {'key': 3, 'year': 2013}, {'key': 4, 'year': 2014},
-              {'key': 5, 'year': 2014}]
+    sample = [{'key': 1, 'set_attr': {1, 2, 3}},
+              {'key': 2, 'set_attr': {1, 2, 3}, 'year': 2015},
+              {'key': 3, 'set_attr': {1, 2, 4}, 'year': 2015}]
 
-    mb = MultipleBlocking([ConjunctionOfAttributes(sample, ['year'])])
+    print 'Conjunction of Attributes:'
+
+    for x in JoinBlocks(ConjunctionOfAttributes(sample, ['year']), 'key'):
+        print x
+
+    print 'MinHash:'
+
+    for x in JoinBlocks(MinHash(sample, 'set_attr', 2, 2), 'key'):
+        print x
+
+    print 'Both:'
+
+    mb = MultipleBlocking([ConjunctionOfAttributes(sample, ['year']), MinHash(sample, 'set_attr', 2, 2)])
 
     for x in JoinBlocks(mb, 'key'):
         print x
