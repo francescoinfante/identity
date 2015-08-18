@@ -1,5 +1,7 @@
 __author__ = 'Francesco Infante'
 
+import ujson
+
 from dpath import util
 
 
@@ -43,3 +45,18 @@ def extract_from_tuple(data, path):
             result.append(None)
 
     return tuple(result)
+
+
+class JSONSource(object):
+    """
+    Read from a file where each line is a document represented as a JSON object.
+
+    Args:
+        filename (str)
+    """
+
+    def __init__(self, filename):
+        self.file = open(filename)
+
+    def next(self):
+        return ujson.loads(self.file.next())
