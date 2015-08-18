@@ -1,8 +1,8 @@
 __author__ = 'Francesco Infante'
 
-import random
-import string
-import hashlib
+from random import choice
+from string import ascii_uppercase
+from hashlib import sha1
 from itertools import combinations
 
 import dpath.util
@@ -12,12 +12,12 @@ from api import Blocking
 
 class HashFamily(object):
     def __init__(self, size):
-        self._salt = [(''.join(random.choice(string.ascii_uppercase) for _ in range(5))) for _ in range(size)]
+        self._salt = [(''.join(choice(ascii_uppercase) for _ in range(5))) for _ in range(size)]
 
     def __getitem__(self, k):
         if k >= len(self._salt):
             raise IndexError()
-        return lambda x: hashlib.sha1(str(x) + self._salt[k]).hexdigest()[-8:].zfill(8)
+        return lambda x: sha1(str(x) + self._salt[k]).hexdigest()[-8:].zfill(8)
 
     @staticmethod
     def max_value():
