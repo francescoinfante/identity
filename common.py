@@ -1,6 +1,6 @@
 __author__ = 'Francesco Infante'
 
-import dpath.util
+from dpath import util
 
 
 class Configuration(dict):
@@ -38,7 +38,7 @@ def extract_from_tuple(data, path):
 
     for x in data:
         try:
-            result.append(dpath.util.get(x, path))
+            result.append(util.get(x, path))
         except:
             result.append(None)
 
