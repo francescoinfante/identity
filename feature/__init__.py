@@ -18,3 +18,7 @@ class FeaturesExtraction(object):
             else:
                 features_vector[feat.prefix()] = result
         return features_vector
+
+
+if __name__ == "__main__":
+    pass

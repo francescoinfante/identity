@@ -5,7 +5,6 @@ from itertools import izip, repeat
 
 from dpath import util
 
-from api import Transformation
 from common import Configuration, Apply, Path
 
 
@@ -32,7 +31,7 @@ def _transform(args):
 class DataTransformation(object):
     """
     Args:
-        source (list(dict)): list of records to transform
+        source ([dict]): list of records
         config (Configuration): configuration to apply to each record
     """
 
@@ -45,3 +44,7 @@ class DataTransformation(object):
 
     def __del__(self):
         self.pool.close()
+
+
+if __name__ == "__main__":
+    pass
