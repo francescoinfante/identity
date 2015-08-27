@@ -6,6 +6,7 @@ from itertools import izip, repeat
 from dpath import util
 
 from identity.common import Configuration, Apply, Path
+from api import Transformation
 
 
 def _transform(args):
@@ -15,6 +16,10 @@ def _transform(args):
     result = config
     if isinstance(config, Configuration):
         result = {k: _transform((data, v)) for k, v in config.iteritems()}
+    elif isinstance(config, Transformation):
+        args = [_transform((data, v)) for v in config.args]
+        kwargs = {k: _transform((data, v)) for k, v in config.kwargs.iteritems()}
+        result = config.transform(*args, **kwargs)
     elif isinstance(config, Apply):
         args = [_transform((data, v)) for v in config.args]
         kwargs = {k: _transform((data, v)) for k, v in config.kwargs.iteritems()}
@@ -38,6 +43,9 @@ class DataTransformation(object):
     def __init__(self, source, config, processes=cpu_count()):
         self.pool = Pool(processes)
         self.results = self.pool.imap(_transform, izip(source, repeat(config)))
+
+    def __iter__(self):
+        return self
 
     def next(self):
         return self.results.next()
