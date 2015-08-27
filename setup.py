@@ -9,7 +9,7 @@ setup(
     packages=find_packages(),
     long_description=open('README.md').read(),
     license='GNU Lesser General Public License v3 (LGPLv3)',
-    install_requires=['dpath', 'ujson', 'unidecode', 'jellyfish'],
+    install_requires=['dpath', 'ujson', 'unidecode', 'jellyfish', 'pyparsing'],
     classifiers=[
         'Development Status :: 1 - Planning',
         'Intended Audience :: Developers',

@@ -52,6 +52,14 @@ class ParseDate(Transformation):
         return dateparse.parse(data, fuzzy=True, dayfirst=dayfirst)
 
 
+class PyParse(Transformation):
+    def transform(self, grammar, data):
+        """
+        Pyparsing wrapper.
+        """
+        return grammar.parseString(data)
+
+
 """
 Phonetic encoding
 """
