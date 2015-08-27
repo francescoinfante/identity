@@ -6,7 +6,7 @@ from itertools import combinations
 from inspect import isclass
 
 from api import ConflictResolutionFunction
-from common import extract_from_tuple
+from identity.common import extract_from_tuple
 
 
 class Min(ConflictResolutionFunction):

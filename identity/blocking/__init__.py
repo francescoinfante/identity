@@ -7,7 +7,7 @@ from sorted_neighborhood import SortedNeighborhood
 from conjunction_of_attributes import ConjunctionOfAttributes
 from multiple_blocking import MultipleBlocking
 from api import Blocking
-from common import extract_from_tuple
+from identity.common import extract_from_tuple
 
 
 class JoinBlocks(object):

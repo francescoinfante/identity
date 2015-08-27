@@ -5,7 +5,7 @@ from itertools import izip, repeat
 from inspect import isclass
 
 from api import ConflictResolutionFunction
-from common import extract_from_tuple
+from identity.common import extract_from_tuple
 from conflict_resolution_functions import Min, Max, Sum, Count, Avg, Random, Longest, Shortest, Choose, Vote, Group, \
     Escalate, MostRecent, HighestAverageSimilarity
 
@@ -63,8 +63,8 @@ class DataFusion(object):
 
 
 if __name__ == "__main__":
-    from common import Configuration
-    from feature import Levenshtein
+    from identity.common import Configuration
+    from identity.feature import Levenshtein
 
     sample = [({'title': 'Maatrix', 'year': 1998, 'director': 'The Wachowskis',
                 'actors': ['Keanu Reeves', 'Carrie-Anne Moss']},

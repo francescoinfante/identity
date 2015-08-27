@@ -5,11 +5,11 @@ setup(
     url='https://github.com/francescoinfante/identity',
     author='Francesco Infante',
     author_email='francesco.infante@icloud.com',
-    version='0.1.2',
+    version='0.1.3',
     packages=find_packages(),
     long_description=open('README.md').read(),
     license='GNU Lesser General Public License v3 (LGPLv3)',
-    install_requires=['dpath', 'ujson', 'unidecode'],
+    install_requires=['dpath', 'ujson', 'unidecode', 'jellyfish'],
     classifiers=[
         'Development Status :: 1 - Planning',
         'Intended Audience :: Developers',

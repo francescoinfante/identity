@@ -5,7 +5,7 @@ from itertools import izip, repeat
 
 from dpath import util
 
-from common import Configuration, Apply, Path
+from identity.common import Configuration, Apply, Path
 
 
 def _transform(args):
