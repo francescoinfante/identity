@@ -25,8 +25,8 @@ class Apply(object):
 def extract_from_tuple(data, path):
     """
     Args:
-        data (tuple): tuple of records (dicts)
-        path (Path): path of the attributes to extract
+        data (tuple): tuple of records
+        path (Path): attribute to extract
 
     Returns:
         tuple: one attribute for record
