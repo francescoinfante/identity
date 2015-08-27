@@ -6,13 +6,13 @@ from dpath import util
 
 
 class Configuration(dict):
-    def __init__(self, *arg, **kw):
-        super(Configuration, self).__init__(*arg, **kw)
+    def __init__(self, *args, **kwargs):
+        super(Configuration, self).__init__(*args, **kwargs)
 
 
 class Path(str):
-    def __init__(self, *arg, **kw):
-        super(Path, self).__init__(*arg, **kw)
+    def __init__(self, *args, **kwargs):
+        super(Path, self).__init__(*args, **kwargs)
 
 
 class Apply(object):
