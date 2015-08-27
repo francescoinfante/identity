@@ -10,7 +10,7 @@ from api import Blocking
 class ConjunctionOfAttributes(Blocking):
     """
     Args:
-        source (list(dict)): list of records
+        source ([dict]): list of records
         attributes (list(Path)): list of attributes to use as blocking key
     """
 

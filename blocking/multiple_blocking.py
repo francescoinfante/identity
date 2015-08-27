@@ -6,7 +6,7 @@ from api import Blocking
 class MultipleBlocking(Blocking):
     """
     Args:
-        blocking_algorithms (list(Blocking)): list of blocking algorithms
+        blocking_algorithms ([Blocking]): list of blocking algorithms
     """
 
     def __init__(self, blocking_algorithms):

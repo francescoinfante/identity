@@ -29,10 +29,10 @@ class MinHash(Blocking):
     Algorithm based on Broder et al. (1998); Rajaraman et al. (2012).
 
     Args:
-        source (list(dict)): list of records
-        attribute (Path): attribute (a set) used to compute the sketch
-        bands (int): number of bands for LSH
-        rows (int): number of rows for LSH
+        source ([dict]): list of records
+        attribute (Path): attribute on which to compute the sketch
+        bands (int)
+        rows (int)
     """
 
     def __init__(self, source, attribute, bands, rows):

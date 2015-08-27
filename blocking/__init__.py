@@ -13,8 +13,8 @@ from common import extract_from_tuple
 class JoinBlocks(object):
     """
     Args:
-        blocking_algorithm (Blocking): a blocking algorithm (also a MultipleBlocking)
-        unique_attribute (Path): path to the unique attribute (e.g: ID)
+        blocking_algorithm (Blocking): blocking algorithm
+        unique_attribute (Path): path to the unique attribute (e.g. ID)
     """
 
     def __init__(self, blocking_algorithm, unique_attribute):
@@ -47,7 +47,7 @@ if __name__ == "__main__":
               {'key': 2, 'set_attr': {1, 2, 3}, 'year': 2015},
               {'key': 3, 'set_attr': {1, 2, 4}, 'year': 2015}]
 
-    print 'Conjunction of Attributes:'
+    print 'Conjunction of attributes:'
 
     for x in JoinBlocks(ConjunctionOfAttributes(sample, ['year']), 'key'):
         print x

@@ -12,7 +12,7 @@ class SortedNeighborhood(Blocking):
     Algorithm based on Hernandez and Stolfo (1995).
 
     Args:
-        source (list(dict)): list of records
+        source ([dict]): list of records
         key (Path): attribute to use as key
         window_size (int)
     """
