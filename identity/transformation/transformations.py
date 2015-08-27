@@ -3,74 +3,75 @@ __author__ = 'Francesco Infante'
 import re
 
 from unidecode import unidecode
+from jellyfish import soundex, metaphone, nysiis, match_rating_codex
+from dateutil import parser as dateparse
+
+from api import Transformation
 
 
-def lower_case(data):
-    """
-    Lowercase all the letters and remove accents, whitespaces to both ends and multiple consecutive whitespaces.
+class LowerCase(Transformation):
+    def transform(self, data):
+        """
+        Lowercase all the letters and remove accents, whitespaces to both ends and multiple consecutive whitespaces.
 
-    Args:
-        data (unicode or str)
+        Args:
+            data (unicode or str)
 
-    Returns:
-        str
-    """
-    if isinstance(data, unicode):
-        data = unidecode(data)
-    return re.sub(' +', ' ', data.lower().strip())
-
-
-def digits_only(data):
-    """
-    Remove everything which is not a digit.
-    """
-    return re.sub('[^0-9]', '', data)
+        Returns:
+            str
+        """
+        if isinstance(data, unicode):
+            data = unidecode(data)
+        return re.sub(' +', ' ', data.lower().strip())
 
 
-def phone_number():
-    raise NotImplementedError()
+class DigitsOnly(Transformation):
+    def transform(self, data):
+        return re.sub('[^0-9]', '', data)
 
 
-def person_name():
-    raise NotImplementedError()
-
-def date():
-    raise NotImplementedError()
-
-def cities():
-    raise NotImplementedError()
-
-
-def generic_value_cleaner():
-    """
-    Remove value too common that probably represents a None
-    """
-    raise NotImplementedError()
+class NGram(Transformation):
+    def transform(self, data, size):
+        data = data.split()
+        ngrams = []
+        for x in range(0, len(data) - size + 1):
+            ngrams.append(data[x:x + size])
+        return ngrams
 
 
-def shingles():
-    raise NotImplementedError()
-
-def ngram():
-    raise NotImplementedError()
-
-def qgram():
-    raise NotImplementedError()
-
-def reference_table():
-    raise NotImplementedError()
+class QGram(Transformation):
+    def transform(self, data, size):
+        qgrams = []
+        for x in range(0, len(data) - size + 1):
+            qgrams.append(data[x:x + size])
+        return qgrams
 
 
-def regexp_cleaner():
-    """
-    Returns the part matching the group
-    """
-    raise NotImplementedError()
-
-def soundex():
-    pass
-
-def metaphone():
-    pass
+class ParseDate(Transformation):
+    def transform(self, data, dayfirst=False):
+        return dateparse.parse(data, fuzzy=True, dayfirst=dayfirst)
 
 
+"""
+Phonetic encoding
+"""
+
+
+class Soundex(Transformation):
+    def transform(self, data):
+        return soundex(data)
+
+
+class Metaphone(Transformation):
+    def transform(self, data):
+        return metaphone(data)
+
+
+class NYSIIS(Transformation):
+    def transform(self, data):
+        return nysiis(data)
+
+
+class MatchRatingApproach(Transformation):
+    def transform(self, data):
+        return match_rating_codex(data)
