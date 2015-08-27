@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
+
 __author__ = 'Francesco Infante'
 
-from multiprocessing import Pool, cpu_count
+from pathos.multiprocessing import Pool, cpu_count
 from itertools import izip, repeat
 
 from dpath import util
@@ -58,4 +60,16 @@ class DataTransformation(object):
 
 
 if __name__ == "__main__":
-    pass
+    sample = [{'_id': 1, 'titolo': u'Matrix', 'year': {'value': 9999},
+               'attori': ['Keanu Reeves', 'Laurence Fishburne', 'Carrie-Anne Moss']},
+              {'_id': 2, 'titolo': u'V  for Vendetta\n', 'year': {'value': 2005}, 'durata': '132 min'},
+              {'_id': 3, 'titolo': u'La vita è bella'}]
+
+    c = Configuration(id=Path('_id'),
+                      title=LowerCase(Path('titolo')),
+                      year=ValidRange(Path('year/value'), 1000, 2016),
+                      length=DigitsOnly(Path('durata'), True),
+                      actors=Apply(str.lower, Apply(str, Path('titolo'))))
+
+    for x in DataTransformation(sample, c):
+        print x

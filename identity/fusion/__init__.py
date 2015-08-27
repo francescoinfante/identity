@@ -1,6 +1,6 @@
 __author__ = 'Francesco Infante'
 
-from multiprocessing import Pool, cpu_count
+from pathos.multiprocessing import Pool, cpu_count
 from itertools import izip, repeat
 from inspect import isclass
 
