@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 __author__ = 'Francesco Infante'
 
 from itertools import izip, repeat, imap
@@ -44,7 +42,7 @@ if __name__ == "__main__":
     sample = [{'imdb_id': 1, 'titolo': u'Matrix', 'year': {'value': 9999},
                'attori': ['Keanu Reeves', 'Laurence Fishburne', 'Carrie-Anne Moss']},
               {'imdb_id': 2, 'titolo': u'V  for Vendetta\n', 'year': {'value': 2005}, 'durata': '132 min'},
-              {'imdb_id': 3, 'titolo': u'La vita è bella',
+              {'imdb_id': 3, 'titolo': u'La vita \xe8 bella',
                'riconoscimenti': [{'type': 'oscar', 'name': 'Miglior film straniero'},
                                   {'type': 'oscar', 'name': 'Miglior attore protagonista'}]}]
 
