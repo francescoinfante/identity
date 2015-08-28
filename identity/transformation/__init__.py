@@ -46,8 +46,6 @@ if __name__ == "__main__":
                'riconoscimenti': [{'type': 'oscar', 'name': 'Miglior film straniero'},
                                   {'type': 'oscar', 'name': 'Miglior attore protagonista'}]}]
 
-    config_actors = Configuration(id=1)
-
     c = Configuration(ids=Configuration(imdb=Path('imdb_id')),
                       title=LowerCase(Path('titolo')),
                       year=ValidRange(Path('year/value'), 1000, 2016),
