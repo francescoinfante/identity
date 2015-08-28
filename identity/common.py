@@ -15,13 +15,6 @@ class Path(str):
         super(Path, self).__init__(*args, **kwargs)
 
 
-class Apply(object):
-    def __init__(self, function, *args, **kwargs):
-        self.function = function
-        self.args = args
-        self.kwargs = kwargs
-
-
 def extract_from_tuple(data, path):
     """
     Args:
