@@ -49,7 +49,7 @@ class Map(object):
     """
     Args:
         source (list): list of data
-        config (Configuration or Transformation): apply the configuration or the transformation to each element in input
+        config (Configuration or Transformation): apply the configuration or the transformation to each element
     """
 
     def __init__(self, source, config):
