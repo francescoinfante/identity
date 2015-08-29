@@ -44,7 +44,7 @@ def _merge_records(args):
 class DataFusion(object):
     """
     Args:
-        source ([(dict, dict)]): list of tuples, each containing the records to merge
+        source ([tuple]): list of tuples, each containing the records to merge
         config (Configuration): configuration to apply to each tuple
     """
 

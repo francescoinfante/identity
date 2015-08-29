@@ -4,6 +4,12 @@ from string_metrics import Levenshtein
 
 
 class FeatureExtraction(object):
+    """
+    Args:
+        source ([tuple]): list of pairs of records
+        features ([Feature]): list of features to extract from each pair
+    """
+
     def __init__(self, pairs, features):
         self.pairs = pairs
         self.features = features
