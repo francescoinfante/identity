@@ -2,7 +2,9 @@ __author__ = 'Francesco Infante'
 
 from inspect import isclass
 
-from string_metrics import Levenshtein
+from string_metrics import Levenshtein, MongeElkan
+from other_metrics import ExactMatch
+from set_metrics import JaccardIndex
 from identity.common import extract_from_tuple, Path
 
 
@@ -38,13 +40,16 @@ class FeatureExtraction(object):
 
 if __name__ == "__main__":
     sample = [({'id': 3, 'title': 'matrix',
-                'actors': ['keanu reeves', 'laurence fishburne', 'carrie-anne moss']},
-               {'id': 5, 'title': 'matrix',
-                'actors': ['keanu reeves', 'laurence fishburne', 'carrie-anne moss']}),
-              ({'id': 8, 'title': 'la vita e bella'},
-               {'id': 11, 'title': 'la vita e bella'})]
+                'year': 1999,
+                'actors': ['keanu reeves', 'laurence fishburne'],
+                'genre': 'scifi action'},
+               {'id': 5, 'title': 'the matrix',
+                'year': 1999,
+                'actors': ['keanu reeves', 'carrie-anne moss'],
+                'genre': 'action sci-fi'})]
 
-    feats = [(Levenshtein, Path('title'))]
+    feats = [(Levenshtein(similarity=True), Path('title')), (ExactMatch, Path('year')), (JaccardIndex, Path('actors')),
+             (MongeElkan, Path('genre'))]
 
     for x in FeatureExtraction(sample, feats):
         print x
