@@ -58,22 +58,28 @@ class JaroWinkler(Feature):
         return jaro_winkler(unicode(x), unicode(y))
 
 
-class AffineGapDistance(Feature):
+class AffineGap(Feature):
     def extract(self, x, y):
-        if x is None or y is None:
-            return 0
-        pass
-
-
-class SmithWaterman(Feature):
-    def extract(self, x, y):
-        if x is None or y is None:
-            return 0
-        pass
+        # TODO
+        raise NotImplementedError()
 
 
 class MongeElkan(Feature):
     def extract(self, x, y):
         if x is None or y is None:
             return 0
-        return 1
+        toks_x = x.split()
+        toks_y = y.split()
+
+        if len(toks_x) > len(toks_y):
+            toks_x, toks_y = toks_y, toks_x
+
+        sum = 0.0
+
+        for x in toks_x:
+            best_x = 0.0
+            for y in toks_y:
+                best_x = max(best_x, JaroWinkler().extract(x, y))
+            sum += best_x
+
+        return sum / min(len(toks_x), len(toks_y))

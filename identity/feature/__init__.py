@@ -2,8 +2,8 @@ __author__ = 'Francesco Infante'
 
 from inspect import isclass
 
-from string_metrics import Hamming, Levenshtein, DamerauLevenshtein, Jaro, JaroWinkler, AffineGapDistance, \
-    SmithWaterman, MongeElkan
+from string_metrics import Hamming, Levenshtein, DamerauLevenshtein, Jaro, JaroWinkler, AffineGap, \
+    MongeElkan
 from other_metrics import ExactMatch
 from set_metrics import JaccardIndex
 from identity.common import extract_from_tuple, Path
