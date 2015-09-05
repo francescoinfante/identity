@@ -49,7 +49,7 @@ if __name__ == "__main__":
                 'actors': ['keanu reeves', 'carrie-anne moss'],
                 'genre': 'action sci-fi'})]
 
-    feats = [(Levenshtein(similarity=True), Path('title')), (ExactMatch, Path('year')), (JaccardIndex, Path('actors')),
+    feats = [(Levenshtein(True), Path('title')), (ExactMatch, Path('year')), (JaccardIndex, Path('actors')),
              (MongeElkan, Path('genre'))]
 
     for x in FeatureExtraction(sample, feats):
