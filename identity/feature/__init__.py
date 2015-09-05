@@ -6,6 +6,7 @@ from string_metrics import Hamming, Levenshtein, DamerauLevenshtein, Jaro, JaroW
     MongeElkan
 from other_metrics import ExactMatch
 from set_metrics import OverlapCoefficient, DiceCoefficient, JaccardIndex
+from vector_metrics import EuclideanDistance, CosineSimilarity
 from identity.common import extract_from_tuple, Path
 
 
