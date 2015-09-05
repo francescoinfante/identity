@@ -4,7 +4,7 @@ from inspect import isclass
 
 from string_metrics import Hamming, Levenshtein, DamerauLevenshtein, Jaro, JaroWinkler, AffineGap, \
     MongeElkan
-from other_metrics import ExactMatch
+from other_metrics import ExactMatch, Apply
 from set_metrics import OverlapCoefficient, DiceCoefficient, JaccardIndex
 from vector_metrics import EuclideanDistance, CosineSimilarity
 from identity.common import extract_from_tuple, Path
