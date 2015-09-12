@@ -53,3 +53,6 @@ class JSONSource(object):
 
     def next(self):
         return ujson.loads(self.file.next())
+
+    def __iter__(self):
+        return self
