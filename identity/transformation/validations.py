@@ -36,3 +36,9 @@ class ValidISBN(Transformation):
             return isbn.validate(data, convert=True)
         except:
             pass
+
+
+class ValidDOI(Transformation):
+    def transform(self, data):
+        if data[:3] == "10." and len(data.split("/")) >= 1:
+            return data
