@@ -5,9 +5,7 @@ from itertools import izip, repeat
 
 from unidecode import unidecode
 from jellyfish import soundex, metaphone, nysiis, match_rating_codex
-
 from dateutil import parser as dateparse
-
 from dpath import util
 
 from api import Transformation
@@ -71,6 +69,23 @@ class Apply(Transformation):
             return self.function(*args, **kwargs)
         except:
             pass
+
+
+class Or(Transformation):
+    def transform(self, *args):
+        for x in args:
+            if x is not None:
+                return x
+
+
+class And(Transformation):
+    def transform(self, *args):
+        if len(args) >= 1:
+            t = args[0]
+            for x in args:
+                if x != t:
+                    return None
+            return t
 
 
 class DigitsOnly(Transformation):
