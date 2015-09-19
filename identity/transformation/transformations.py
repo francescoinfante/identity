@@ -4,8 +4,11 @@ import re
 from itertools import izip, repeat
 
 from unidecode import unidecode
+
 from jellyfish import soundex, metaphone, nysiis, match_rating_codex
+
 from dateutil import parser as dateparse
+
 from dpath import util
 
 from api import Transformation
@@ -139,9 +142,24 @@ class QGram(Transformation):
 
 
 class ParseDate(Transformation):
-    def transform(self, data, dayfirst=False):
+    def transform(self, data, fuzzy=False, dayfirst=False):
         if isinstance(data, basestring):
-            return dateparse.parse(data, fuzzy=True, dayfirst=dayfirst)
+            return dateparse.parse(data, fuzzy=fuzzy, dayfirst=dayfirst)
+
+
+class ParseMonth(Transformation):
+    def transform(self, data):
+        if isinstance(data, basestring):
+            try:
+                v = int(data)
+                if 1 <= v <= 12:
+                    return v
+            except:
+                pass
+            try:
+                return dateparse.parse(data, fuzzy=False).month
+            except:
+                pass
 
 
 class PyParse(Transformation):
