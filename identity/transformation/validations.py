@@ -40,5 +40,6 @@ class ValidISBN(Transformation):
 
 class ValidDOI(Transformation):
     def transform(self, data):
-        if data[:3] == "10." and len(data.split("/")) >= 1:
-            return data
+        if isinstance(data, basestring):
+            if data[:3] == "10." and len(data.split("/")) >= 1:
+                return data
