@@ -7,7 +7,7 @@ from pathos.multiprocessing import Pool, cpu_count
 from identity.common import Configuration, Path
 from api import Transformation
 from transformations import transform, Map, Apply, Or, And, LowerCase, DigitsOnly, NGram, QGram, ParseDate, ParseMonth, \
-    Soundex, Metaphone, NYSIIS, MatchRatingApproach
+    Soundex, Metaphone, NYSIIS, MatchRatingApproach, Merge
 from validations import MinLength, MaxLength, ValidRange, ValidISSN, ValidISBN
 
 

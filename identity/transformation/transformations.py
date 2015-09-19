@@ -4,7 +4,6 @@ import re
 from itertools import izip, repeat
 
 from unidecode import unidecode
-
 from jellyfish import soundex, metaphone, nysiis, match_rating_codex
 
 from dateutil import parser as dateparse
@@ -53,13 +52,20 @@ class Map(object):
         config (Configuration or Transformation): apply the configuration or the transformation to each element
     """
 
-    def __init__(self, source, config):
+    def __init__(self, source, config, no_duplicate=False, no_none=False):
         self.source = source
         self.config = config
+        self.no_none = no_none
+        self.no_duplicate = no_duplicate
 
     def get_result(self, source):
         if hasattr(source, '__iter__'):
-            return map(transform, izip(source, repeat(self.config)))
+            result = map(transform, izip(source, repeat(self.config)))
+            if self.no_none or self.no_duplicate:
+                result = [x for x in result if x is not None]
+            if self.no_duplicate:
+                result = list(set(result))
+            return result
 
 
 class Apply(Transformation):
@@ -72,6 +78,20 @@ class Apply(Transformation):
             return self.function(*args, **kwargs)
         except:
             pass
+
+
+class Merge(Transformation):
+    def transform(self, *args):
+        result = set()
+        for x in args:
+            if x is not None:
+                if isinstance(x, list):
+                    for y in x:
+                        result.add(y)
+                else:
+                    result.add(x)
+        if len(result) > 0:
+            return list(result)
 
 
 class Or(Transformation):
