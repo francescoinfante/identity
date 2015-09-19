@@ -8,7 +8,7 @@ from identity.common import Configuration, Path
 from api import Transformation
 from transformations import transform, Map, Apply, Or, And, LowerCase, DigitsOnly, NGram, QGram, ParseDate, ParseMonth, \
     Soundex, Metaphone, NYSIIS, MatchRatingApproach
-from validations import MinLength, MaxLength, ValidRange
+from validations import MinLength, MaxLength, ValidRange, ValidISSN, ValidISBN
 
 
 class DataTransformation(object):
