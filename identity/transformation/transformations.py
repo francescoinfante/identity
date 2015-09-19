@@ -80,7 +80,7 @@ class Apply(Transformation):
             pass
 
 
-class Merge(Transformation):
+class Chain(Transformation):
     def transform(self, *args):
         result = set()
         for x in args:
