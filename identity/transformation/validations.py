@@ -17,5 +17,4 @@ class MaxLength(Transformation):
 
 class ValidRange(Transformation):
     def transform(self, data, lower, upper):
-        if hasattr(data, '__len__'):
-            return data if lower <= data <= upper else None
+        return data if lower <= data <= upper else None
