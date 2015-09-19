@@ -4,6 +4,7 @@ import re
 from itertools import izip, repeat
 
 from unidecode import unidecode
+
 from jellyfish import soundex, metaphone, nysiis, match_rating_codex
 
 from dateutil import parser as dateparse
@@ -27,6 +28,8 @@ def transform(args):
         result = config.transform(*args, **kwargs)
     elif isinstance(config, Map):
         result = config.get_result(transform((data, config.source)))
+    elif isinstance(config, MultiUse):
+        result = config.get_result(transform((data, config.source)))
     elif isinstance(config, Path):
         try:
             if config == '' or config == '/':
@@ -38,11 +41,14 @@ def transform(args):
 
     if isinstance(result, list):
         result = [x for x in result if x is not None]
-
-    if isinstance(result, dict):
+        if len(result) > 0:
+            return result
+    elif isinstance(result, dict):
         result = {k: v for k, v in result.iteritems() if v is not None}
-
-    return result
+        if len(result) > 0:
+            return result
+    else:
+        return result
 
 
 class Map(object):
@@ -66,6 +72,16 @@ class Map(object):
             if self.no_duplicate:
                 result = list(set(result))
             return result
+
+
+class MultiUse(object):
+    def __init__(self, source, config):
+        self.source = source
+        self.config = config
+
+    def get_result(self, source):
+        if source is not None:
+            return transform((source, self.config))
 
 
 class Apply(Transformation):
