@@ -37,8 +37,8 @@ class ConjunctionOfAttributes(Blocking):
                 buckets[h] = [e]
 
         if debug:
-            for k, v in buckets.iteritems():
-                logger.info(str(blocking_keys[k]) + ' appears ' + str(len(v)) + ' times')
+            for k in sorted(buckets, key=lambda k: len(buckets[k]), reverse=True):
+                logger.info(str(blocking_keys[k]) + ' appears ' + str(len(buckets[k])) + ' times')
 
         print len(buckets)
 
