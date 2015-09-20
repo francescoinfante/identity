@@ -28,7 +28,7 @@ def transform(args):
         result = config.transform(*args, **kwargs)
     elif isinstance(config, Map):
         result = config.get_result(transform((data, config.source)))
-    elif isinstance(config, MultiUse):
+    elif isinstance(config, ApplyConf):
         result = config.get_result(transform((data, config.source)))
     elif isinstance(config, Path):
         try:
@@ -74,7 +74,7 @@ class Map(object):
             return result
 
 
-class MultiUse(object):
+class ApplyConf(object):
     def __init__(self, source, config):
         self.source = source
         self.config = config
