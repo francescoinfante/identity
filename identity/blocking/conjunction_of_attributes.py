@@ -23,14 +23,13 @@ class ConjunctionOfAttributes(Blocking):
                     tmp.append(util.get(e, a))
                 except:
                     tmp.append(None)
+            if no_none and None in tmp:
+                continue
             h = hash(tuple(tmp))
             if h in buckets:
                 buckets[h].append(e)
             else:
                 buckets[h] = [e]
-
-        if no_none and None in buckets:
-            del buckets[None]
 
         for k, v in buckets.iteritems():
             buckets[k] = combinations(v, 2)
