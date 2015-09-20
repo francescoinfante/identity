@@ -18,28 +18,19 @@ class JoinBlocks(object):
     """
 
     def __init__(self, blocking_algorithm, unique_attribute):
-        self._blocking_algorithm = blocking_algorithm
-        self._unique_attribute = unique_attribute
-        self._consumed = set()
-        self._current = None
+        self._pairs = []
+        consumed = set()
+        for x in blocking_algorithm:
+            for y in x:
+                u = extract_from_tuple(y, unique_attribute)
+                if not (u in consumed or (u[1], u[0]) in consumed):
+                    self._pairs.append(y)
+                    consumed.add(u)
+
+        self._current = 0
 
     def __iter__(self):
-        return self
-
-    def next(self):
-        if self._current is None:
-            self._current = self._blocking_algorithm.next()
-        try:
-            e = self._current.next()
-            u = extract_from_tuple(e, self._unique_attribute)
-            if u in self._consumed or (u[1], u[0]) in self._consumed:
-                return self.next()
-            else:
-                self._consumed.add(u)
-                return e
-        except StopIteration:
-            self._current = self._blocking_algorithm.next()
-            return self.next()
+        return iter(self._pairs)
 
 
 if __name__ == "__main__":
