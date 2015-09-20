@@ -40,10 +40,14 @@ class ConjunctionOfAttributes(Blocking):
             for k in sorted(buckets, key=lambda k: len(buckets[k]), reverse=True):
                 logger.info(str(blocking_keys[k]) + ' appears ' + str(len(buckets[k])) + ' times')
 
-        print len(buckets)
+        count = 0
 
         for k, v in buckets.iteritems():
             buckets[k] = combinations(v, 2)
+            count += len(combinations)
+
+        if debug:
+            logger.info("# candidate pairs: " + str(count))
 
         self._buckets = buckets.itervalues()
 
