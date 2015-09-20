@@ -14,7 +14,7 @@ class ConjunctionOfAttributes(Blocking):
         attributes (list(Path)): list of attributes to use as blocking key
     """
 
-    def __init__(self, source, attributes):
+    def __init__(self, source, attributes, no_none=False):
         buckets = {}
         for e in source:
             tmp = []
@@ -28,6 +28,9 @@ class ConjunctionOfAttributes(Blocking):
                 buckets[h].append(e)
             else:
                 buckets[h] = [e]
+
+        if no_none and None in buckets:
+            del buckets[None]
 
         for k, v in buckets.iteritems():
             buckets[k] = combinations(v, 2)
