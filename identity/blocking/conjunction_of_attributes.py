@@ -1,9 +1,11 @@
 __author__ = 'Francesco Infante'
 
 from itertools import combinations
+import logging
 
 from dpath import util
 
+logger = logging.getLogger(__name__)
 from api import Blocking
 
 
@@ -14,7 +16,7 @@ class ConjunctionOfAttributes(Blocking):
         attributes (list(Path)): list of attributes to use as blocking key
     """
 
-    def __init__(self, source, attributes, no_none=False):
+    def __init__(self, source, attributes, no_none=False, debug=False):
         buckets = {}
         blocking_keys = {}
         for e in source:
@@ -34,9 +36,9 @@ class ConjunctionOfAttributes(Blocking):
             else:
                 buckets[h] = [e]
 
-        for k, v in buckets.iteritems():
-            print blocking_keys[k]
-            print len(v)
+        if debug:
+            for k, v in buckets.iteritems():
+                logger.info(blocking_keys[k] + ' appears ' + str(len(v)) + ' times')
 
         print len(buckets)
 
