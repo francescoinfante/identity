@@ -24,6 +24,8 @@ class ConjunctionOfAttributes(Blocking):
                 except:
                     tmp.append(None)
             if no_none and None in tmp:
+                print "skip bad"
+                print tmp
                 continue
             h = hash(tuple(tmp))
             if h in buckets:
