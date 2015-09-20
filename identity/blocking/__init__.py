@@ -4,7 +4,7 @@ from all_pairs import AllPairs
 from canopy_clustering import CanopyClustering
 from min_hash import MinHash
 from sorted_neighborhood import SortedNeighborhood
-from conjunction_of_attributes import ConjunctionOfAttributes, ConjunctionOfAttributesMulti
+from conjunction_of_attributes import ConjunctionOfAttributes
 from multiple_blocking import MultipleBlocking
 from api import Blocking
 from identity.common import extract_from_tuple
