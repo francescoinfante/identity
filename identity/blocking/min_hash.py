@@ -41,7 +41,10 @@ class MinHash(Blocking):
         buckets = {}
 
         for e in source:
-            s = util.get(e, attribute)
+            try:
+                s = util.get(e, attribute)
+            except:
+                continue
 
             sketch = []
 
