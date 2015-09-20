@@ -44,7 +44,7 @@ class ConjunctionOfAttributes(Blocking):
 
         for k, v in buckets.iteritems():
             buckets[k] = combinations(v, 2)
-            count += (v * (v - 1)) / 2
+            count += (len(v) * (len(v) - 1)) / 2
 
         if debug:
             logger.info("# candidate pairs: " + str(count))
