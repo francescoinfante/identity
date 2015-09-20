@@ -32,6 +32,12 @@ class ConjunctionOfAttributes(Blocking):
                 buckets[h] = [e]
 
         for k, v in buckets.iteritems():
+            print k
+            print len(v)
+
+        print len(buckets)
+
+        for k, v in buckets.iteritems():
             buckets[k] = combinations(v, 2)
 
         self._buckets = buckets.itervalues()
