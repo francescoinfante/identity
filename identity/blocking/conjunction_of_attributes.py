@@ -16,6 +16,7 @@ class ConjunctionOfAttributes(Blocking):
 
     def __init__(self, source, attributes, no_none=False):
         buckets = {}
+        blocking_keys = {}
         for e in source:
             tmp = []
             for a in attributes:
@@ -24,17 +25,17 @@ class ConjunctionOfAttributes(Blocking):
                 except:
                     tmp.append(None)
             if no_none and None in tmp:
-                print "skip bad"
-                print tmp
                 continue
             h = hash(tuple(tmp))
+            if h not in blocking_keys:
+                blocking_keys[h] = tmp
             if h in buckets:
                 buckets[h].append(e)
             else:
                 buckets[h] = [e]
 
         for k, v in buckets.iteritems():
-            print k
+            print blocking_keys[k]
             print len(v)
 
         print len(buckets)
