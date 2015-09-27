@@ -4,10 +4,13 @@ from random import choice
 from string import ascii_uppercase
 from hashlib import sha1
 from itertools import combinations
+import logging
 
 from dpath import util
 
 from api import Blocking
+
+logger = logging.getLogger(__name__)
 
 
 class HashFamily(object):
@@ -35,12 +38,23 @@ class MinHash(Blocking):
         rows (int)
     """
 
-    def __init__(self, source, attribute, bands, rows):
+    def __init__(self, source, attribute, bands, rows, debug=False):
         hash_family = HashFamily(bands * rows)
         sketches = []
         buckets = {}
 
+        count = 0
+
+        if debug:
+            logger.info('computing sketches')
+
         for e in source:
+
+            count += 1
+
+            if debug and count % 1000 == 0:
+                logger.info('tick ' + count)
+
             try:
                 s = util.get(e, attribute)
             except:
@@ -55,6 +69,9 @@ class MinHash(Blocking):
                 sketch.append(str(current_min))
 
             sketches.append((e, sketch))
+
+        if debug:
+            logger.info('all sketches done')
 
         for b in range(0, bands):
             tmp_buckets = {}
@@ -71,6 +88,9 @@ class MinHash(Blocking):
 
         for k, v in buckets.iteritems():
             buckets[k] = combinations(v, 2)
+
+        if debug:
+            logger.info('minhash done')
 
         self._buckets = buckets.itervalues()
 
