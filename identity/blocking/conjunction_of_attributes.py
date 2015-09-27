@@ -19,7 +19,16 @@ class ConjunctionOfAttributes(Blocking):
     def __init__(self, source, attributes, no_none=False, debug=False):
         buckets = {}
         blocking_keys = {}
+
+        count = 0
+
         for e in source:
+
+            count += 1
+
+            if debug and count % 1000 == 0:
+                logger.info('tick ' + str(count))
+
             keys = [[]]
             for a in attributes:
                 v = None
@@ -51,6 +60,8 @@ class ConjunctionOfAttributes(Blocking):
 
         if debug:
             for k in sorted(buckets, key=lambda k: len(buckets[k]), reverse=True):
+                if len(buckets[k]) == 1:
+                    break
                 logger.info(str(blocking_keys[k]) + ' appears ' + str(len(buckets[k])) + ' times')
 
         count = 0
