@@ -27,7 +27,8 @@ class JoinBlocks(object):
 
         count = 0
 
-        logger.info('joinblock start')
+        if debug:
+            logger.info('joinblock start')
 
         for x in blocking_algorithm:
             for y in x:
@@ -42,7 +43,8 @@ class JoinBlocks(object):
                     self._pairs.append(y)
                     consumed.add(u)
 
-        logger.info('joinblock done')
+        if debug:
+            logger.info('joinblock done')
 
         self._current = 0
 
