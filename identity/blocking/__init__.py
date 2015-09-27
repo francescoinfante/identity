@@ -1,5 +1,7 @@
 __author__ = 'Francesco Infante'
 
+import logging
+
 from all_pairs import AllPairs
 from canopy_clustering import CanopyClustering
 from min_hash import MinHash
@@ -9,6 +11,8 @@ from multiple_blocking import MultipleBlocking
 from api import Blocking
 from identity.common import extract_from_tuple
 
+logger = logging.getLogger(__name__)
+
 
 class JoinBlocks(object):
     """
@@ -17,15 +21,28 @@ class JoinBlocks(object):
         unique_attribute (Path): path to the unique attribute (e.g. ID)
     """
 
-    def __init__(self, blocking_algorithm, unique_attribute):
+    def __init__(self, blocking_algorithm, unique_attribute, debug=False):
         self._pairs = []
         consumed = set()
+
+        count = 0
+
+        logger.info('joinblock start')
+
         for x in blocking_algorithm:
             for y in x:
+
+                count += 1
+
+                if debug and count % 1000 == 0:
+                    logger.info('tick ' + str(count))
+
                 u = extract_from_tuple(y, unique_attribute)
                 if not (u in consumed or (u[1], u[0]) in consumed):
                     self._pairs.append(y)
                     consumed.add(u)
+
+        logger.info('joinblock done')
 
         self._current = 0
 
