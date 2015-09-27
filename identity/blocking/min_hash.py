@@ -53,7 +53,7 @@ class MinHash(Blocking):
             count += 1
 
             if debug and count % 1000 == 0:
-                logger.info('tick ' + count)
+                logger.info('tick ' + str(count))
 
             try:
                 s = util.get(e, attribute)
