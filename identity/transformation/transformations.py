@@ -4,9 +4,7 @@ import re
 from itertools import izip, repeat
 
 from unidecode import unidecode
-
 from jellyfish import soundex, metaphone, nysiis, match_rating_codex
-
 from dateutil import parser as dateparse
 
 from dpath import util
@@ -163,7 +161,10 @@ class NGram(Transformation):
             data = LowerCase().transform(data).split()
             ngrams = []
             for x in range(0, len(data) - size + 1):
-                ngrams.append(data[x:x + size])
+                tmp = ''
+                for y in data[x:x + size]:
+                    tmp += ' ' + y
+                ngrams.append(tmp[1:])
             return ngrams
 
 
@@ -173,7 +174,10 @@ class QGram(Transformation):
             data = LowerCase().transform(data)
             qgrams = []
             for x in range(0, len(data) - size + 1):
-                qgrams.append(data[x:x + size])
+                tmp = ''
+                for y in data[x:x + size]:
+                    tmp += ' ' + y
+                qgrams.append(tmp[1:])
             return qgrams
 
 
