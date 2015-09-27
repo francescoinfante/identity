@@ -27,12 +27,12 @@ class ConjunctionOfAttributes(Blocking):
                     v = util.get(e, a)
                 except:
                     pass
-                logger.info(v)
                 if isinstance(v, list):
-                    logger.info('test')
                     new_keys = []
                     for x in keys:
                         for y in v:
+                            if isinstance(y, list):
+                                y = str(y)
                             new_keys.append(x + [y])
                     keys = new_keys
                 else:
