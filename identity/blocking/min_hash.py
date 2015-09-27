@@ -86,10 +86,14 @@ class MinHash(Blocking):
             for k, v in tmp_buckets.iteritems():
                 buckets[str(b) + k] = v
 
+        count = 0
+
         for k, v in buckets.iteritems():
+            count += (len(v) * (len(v) - 1)) / 2
             buckets[k] = combinations(v, 2)
 
         if debug:
+            logger.info("# candidate pairs: " + str(count))
             logger.info('minhash done')
 
         self._buckets = buckets.itervalues()
