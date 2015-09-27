@@ -40,8 +40,6 @@ class ConjunctionOfAttributes(Blocking):
                     new_keys = []
                     for x in keys:
                         for y in v:
-                            if isinstance(y, list):
-                                y = str(y)
                             new_keys.append(x + [y])
                     keys = new_keys
                 else:
