@@ -16,7 +16,7 @@ class ConjunctionOfAttributes(Blocking):
         attributes (list(Path)): list of attributes to use as blocking key
     """
 
-    def __init__(self, source, attributes, no_none=False, debug=False):
+    def __init__(self, source, attributes, no_none=False, debug=False, filter_size=0):
         buckets = {}
         blocking_keys = {}
 
@@ -66,14 +66,17 @@ class ConjunctionOfAttributes(Blocking):
 
         count = 0
 
+        new_buckets = {}
+
         for k, v in buckets.iteritems():
-            buckets[k] = combinations(v, 2)
             count += (len(v) * (len(v) - 1)) / 2
+            if filter_size == 0 or count <= filter_size:
+                new_buckets[k] = combinations(v, 2)
 
         if debug:
             logger.info("# candidate pairs: " + str(count))
 
-        self._buckets = buckets.itervalues()
+        self._buckets = new_buckets.itervalues()
 
     def next(self):
         return self._buckets.next()
