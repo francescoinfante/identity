@@ -69,8 +69,9 @@ class ConjunctionOfAttributes(Blocking):
         new_buckets = {}
 
         for k, v in buckets.iteritems():
-            count += (len(v) * (len(v) - 1)) / 2
-            if filter_size == 0 or count <= filter_size:
+            size = (len(v) * (len(v) - 1)) / 2
+            if filter_size == 0 or size <= filter_size:
+                count += size
                 new_buckets[k] = combinations(v, 2)
 
         if debug:
