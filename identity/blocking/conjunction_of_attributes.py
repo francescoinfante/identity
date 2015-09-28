@@ -16,7 +16,7 @@ class ConjunctionOfAttributes(Blocking):
         attributes (list(Path)): list of attributes to use as blocking key
     """
 
-    def __init__(self, source, attributes, no_none=False, debug=False, filter_size=0):
+    def __init__(self, source, attributes, no_none=False, debug=False, filter_size=0, string_as_list=False):
         buckets = {}
         blocking_keys = {}
 
@@ -36,6 +36,8 @@ class ConjunctionOfAttributes(Blocking):
                     v = util.get(e, a)
                 except:
                     pass
+                if isinstance(v, basestring):
+                    v = v.split(' ')
                 if isinstance(v, list):
                     new_keys = []
                     for x in keys:
