@@ -44,7 +44,7 @@ class JoinBlocks(object):
             logger.info('joinblock done')
 
     def __iter__(self):
-        return iter(list(self._consumes))
+        return iter(list(self._consumed))
 
 
 if __name__ == "__main__":
