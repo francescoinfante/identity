@@ -22,8 +22,8 @@ class JoinBlocks(object):
     """
 
     def __init__(self, blocking_algorithm, unique_attribute, debug=False):
-        self._consumed = set()
-
+        consumed = set()
+        self._pairs = []
         count = 0
 
         if debug:
@@ -37,14 +37,17 @@ class JoinBlocks(object):
                 if debug and count % 1000 == 0:
                     logger.info('tick ' + str(count))
 
-                u = extract_from_tuple(y, unique_attribute)
-                self._consumed.add(tuple(sorted(u)))
+                u = tuple(sorted(extract_from_tuple(y, unique_attribute)))
+
+                if u not in consumed:
+                    consumed.add(u)
+                    self._pairs.append(y)
 
         if debug:
             logger.info('joinblock done')
 
     def __iter__(self):
-        return iter(list(self._consumed))
+        return iter(self._pairs)
 
 
 if __name__ == "__main__":
