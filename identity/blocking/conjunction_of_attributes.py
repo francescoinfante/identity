@@ -36,7 +36,7 @@ class ConjunctionOfAttributes(Blocking):
                     v = util.get(e, a)
                 except:
                     pass
-                if isinstance(v, basestring):
+                if string_as_list and isinstance(v, basestring):
                     v = v.split(' ')
                 if isinstance(v, list):
                     new_keys = []
