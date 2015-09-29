@@ -34,7 +34,7 @@ class JoinBlocks(object):
 
                 count += 1
 
-                if debug and count % 1000 == 0:
+                if debug and count % 10000 == 0:
                     logger.info('tick ' + str(count))
 
                 u = tuple(sorted(extract_from_tuple(y, unique_attribute)))
