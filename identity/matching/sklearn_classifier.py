@@ -26,7 +26,7 @@ class SklearnClassifier(DataMatching):
 
             self.validate = validate
             if validate:
-                scores = cross_validation.cross_val_score(classifier, X, y, validate_times)
+                scores = cross_validation.cross_val_score(classifier, X, y, cv=validate_times)
                 logger.info('Accuracy: %0.2f (+/- %0.2f)' % (scores.mean(), scores.std() * 2))
             else:
                 self.classifier.fit(X, y)
