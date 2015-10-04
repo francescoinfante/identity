@@ -12,7 +12,7 @@ class SklearnClassifier(DataMatching):
         else:
             self.classifier = classifier
 
-            keys = sorted(training_set[0].keys())
+            keys = sorted(training_set[0][0].keys())
 
             X = [[x[k] for k in keys] for x, _ in training_set]
             y = [y for _, y in training_set]
