@@ -14,7 +14,7 @@ class SklearnClassifier(DataMatching):
 
             keys = sorted(training_set[0][0])
 
-            X = [[x[k] for k in keys] for x, _ in training_set]
+            X = [[y for _, y in sorted(x.items())] for x, _ in training_set]
             y = [y for _, y in training_set]
 
             self.classifier.fit(X, y)
@@ -22,8 +22,6 @@ class SklearnClassifier(DataMatching):
         if save_model_to is not None:
             joblib.dump(self.classifier, save_model_to)
 
-    def predict(self, comparison_vectors):
-        tmp = []
-        for c in comparison_vectors:
-            tmp.append([x for _,x in sorted(c.items())])
-        return self.classifier.predict(tmp)
+    def predict(self, comparison_vector):
+        comparison_vector = [x for _, x in sorted(comparison_vector.items())]
+        return self.classifier.predict(comparison_vector)
