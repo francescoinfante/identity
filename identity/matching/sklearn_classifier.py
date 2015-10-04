@@ -24,4 +24,4 @@ class SklearnClassifier(DataMatching):
 
     def predict(self, comparison_vector):
         comparison_vector = [x for _, x in sorted(comparison_vector.items())]
-        return self.classifier.predict(comparison_vector)
+        return self.classifier.predict(comparison_vector)[0]
