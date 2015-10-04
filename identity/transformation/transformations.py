@@ -137,7 +137,7 @@ class DigitsOnly(Transformation):
 
 
 class LowerCase(Transformation):
-    def transform(self, data):
+    def transform(self, data, only_alpha=True):
         """
         Lowercase all the letters and remove accents, whitespaces to both ends and multiple consecutive whitespaces.
 
@@ -151,6 +151,8 @@ class LowerCase(Transformation):
             if isinstance(data, unicode):
                 data = unidecode(data)
             data = re.sub(' +', ' ', data.lower().strip())
+            if only_alpha:
+                data = re.sub('[^0-9a-zA-Z ]+', '', data)
             if len(data) > 0:
                 return data
 
