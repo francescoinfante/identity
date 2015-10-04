@@ -160,7 +160,10 @@ class LowerCase(Transformation):
 class NGram(Transformation):
     def transform(self, data, size):
         if isinstance(data, basestring):
-            data = LowerCase().transform(data).split()
+            data = LowerCase().transform(data)
+            if data is None:
+                return
+            data = data.split()
             ngrams = []
             for x in range(0, len(data) - size + 1):
                 tmp = ''
@@ -174,6 +177,8 @@ class QGram(Transformation):
     def transform(self, data, size):
         if isinstance(data, basestring):
             data = LowerCase().transform(data)
+            if data is None:
+                return
             qgrams = []
             for x in range(0, len(data) - size + 1):
                 tmp = ''
