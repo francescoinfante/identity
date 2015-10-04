@@ -27,8 +27,8 @@ class SklearnClassifier(DataMatching):
             if validate:
                 scores = cross_validation.cross_val_score(classifier, X, y, validate_times)
                 logger.info('Accuracy: %0.2f (+/- %0.2f)' % (scores.mean(), scores.std() * 2))
-
-            self.classifier.fit(X, y)
+            else:
+                self.classifier.fit(X, y)
 
         if model_path is not None and not os.path.exists(model_path):
             joblib.dump(self.classifier, model_path)
