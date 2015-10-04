@@ -82,7 +82,6 @@ class FellegiSunter(DataMatching):
                                   (float(self.count_black[key]) / self.tot_black), 2)
             elif self.count_white[key] > 0:
                 score = float("inf")
-                break
             else:
                 score = float("-inf")
                 break
