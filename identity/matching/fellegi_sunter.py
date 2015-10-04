@@ -89,7 +89,7 @@ class FellegiSunter(DataMatching):
         return score
 
     def predict(self, comparison_vector):
-        score = comparison_vector.get_score()
+        score = self.get_score(comparison_vector)
         if score >= self.threshold:
             return 1
         else:
