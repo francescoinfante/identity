@@ -2,10 +2,10 @@ __author__ = 'Francesco Infante'
 
 from sklearn.externals import joblib
 
-from api import Classifier
+from api import DataMatching
 
 
-class SklearnClassifier(Classifier):
+class SklearnClassifier(DataMatching):
     def __init__(self, classifier=None, training_set=None, load_model_from=None, save_model_to=None):
         if load_model_from is not None:
             self.classifier = joblib.load(load_model_from)
@@ -22,5 +22,8 @@ class SklearnClassifier(Classifier):
         if save_model_to is not None:
             joblib.dump(self.classifier, save_model_to)
 
-    def predict(self, ):
-        return self.classifier.predict()
+    def predict(self, comparison_vectors):
+        tmp = []
+        for c in comparison_vectors:
+            tmp.append([x for _,x in sorted(c.items())])
+        return self.classifier.predict(tmp)
