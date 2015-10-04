@@ -1,13 +1,13 @@
 __author__ = 'Francesco Infante'
 
 from sklearn.externals import joblib
-
+import os.path
 from api import DataMatching
 
 
 class SklearnClassifier(DataMatching):
     def __init__(self, classifier=None, training_set=None, model_path=None):
-        if model_path is not None:
+        if model_path is not None and os.path.exists(model_path):
             self.classifier = joblib.load(model_path)
         else:
             self.classifier = classifier
@@ -19,7 +19,7 @@ class SklearnClassifier(DataMatching):
 
             self.classifier.fit(X, y)
 
-        if model_path is not None:
+        if model_path is not None and not os.path.exists(model_path):
             joblib.dump(self.classifier, model_path)
 
     def predict(self, comparison_vector):
