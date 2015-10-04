@@ -6,9 +6,9 @@ from api import DataMatching
 
 
 class SklearnClassifier(DataMatching):
-    def __init__(self, classifier=None, training_set=None, load_model_from=None, save_model_to=None):
-        if load_model_from is not None:
-            self.classifier = joblib.load(load_model_from)
+    def __init__(self, classifier=None, training_set=None, model_path=None):
+        if model_path is not None:
+            self.classifier = joblib.load(model_path)
         else:
             self.classifier = classifier
 
@@ -19,8 +19,8 @@ class SklearnClassifier(DataMatching):
 
             self.classifier.fit(X, y)
 
-        if save_model_to is not None:
-            joblib.dump(self.classifier, save_model_to)
+        if model_path is not None:
+            joblib.dump(self.classifier, model_path)
 
     def predict(self, comparison_vector):
         keys = sorted(comparison_vector.keys())
