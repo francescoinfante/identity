@@ -12,9 +12,9 @@ class SklearnClassifier(DataMatching):
         else:
             self.classifier = classifier
 
-            keys = sorted(training_set[0][0])
+            keys = sorted(training_set[0].keys())
 
-            X = [[y for _, y in sorted(x.items())] for x, _ in training_set]
+            X = [[x[k] for k in keys] for x, _ in training_set]
             y = [y for _, y in training_set]
 
             self.classifier.fit(X, y)
@@ -23,5 +23,6 @@ class SklearnClassifier(DataMatching):
             joblib.dump(self.classifier, save_model_to)
 
     def predict(self, comparison_vector):
-        comparison_vector = [x for _, x in sorted(comparison_vector.items())]
+        keys = sorted(comparison_vector.keys())
+        comparison_vector = [comparison_vector[k] for k in keys]
         return self.classifier.predict(comparison_vector)[0]
