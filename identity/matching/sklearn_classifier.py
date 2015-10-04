@@ -14,6 +14,7 @@ logger = logging.getLogger(__name__)
 class SklearnClassifier(DataMatching):
     def __init__(self, classifier=None, training_set=None, model_path=None, validate=False, validate_times=10):
         if model_path is not None and os.path.exists(model_path) and not validate:
+            logger.info('loading model from dump file')
             self.classifier = joblib.load(model_path)
         else:
             self.classifier = classifier
@@ -30,7 +31,8 @@ class SklearnClassifier(DataMatching):
             else:
                 self.classifier.fit(X, y)
 
-        if model_path is not None and not os.path.exists(model_path):
+        if model_path is not None and not os.path.exists(model_path) and not validate:
+            logger.info('saving model to dump file')
             joblib.dump(self.classifier, model_path)
 
     def predict(self, comparison_vector):
