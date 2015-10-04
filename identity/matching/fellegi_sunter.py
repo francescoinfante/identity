@@ -26,6 +26,8 @@ def find_best_top_threshold(fs, beta=0.5):
 
     tot_white = fs.tot_white
 
+    logger.info('finding best top threshold')
+
     for x, t in scores:
         current_pos += 1
         if t == 1:
@@ -39,6 +41,9 @@ def find_best_top_threshold(fs, beta=0.5):
             best_score = current_fscore
             best_top_threshold = x
 
+    logger.info('threshold found')
+    logger.info(best_top_threshold)
+
     return best_top_threshold
 
 
@@ -50,6 +55,8 @@ class FellegiSunter(DataMatching):
         self.tot_black = 0
         self.training_set = training_set
 
+        logger.info('fellegisunter start')
+
         for x, t in training_set:
             if t == 1:
                 self.tot_white += 1
@@ -60,6 +67,8 @@ class FellegiSunter(DataMatching):
                     self.count_white[k + ':' + str(v)] += 1
                 else:
                     self.count_black[k + ':' + str(v)] += 1
+
+        logger.info('counting done')
 
         self.threshold = find_best_top_threshold(self, beta=beta)
 
@@ -81,7 +90,7 @@ class FellegiSunter(DataMatching):
         return score
 
     def predict(self, comparison_vector):
-        score = comparison_vector.get_score
+        score = comparison_vector.get_score()
         if score >= self.threshold:
             return 1
         else:
