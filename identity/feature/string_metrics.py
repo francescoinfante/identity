@@ -68,7 +68,7 @@ class MongeElkan(Feature):
     def extract(self, x, y):
         if x is None or y is None:
             return 0
-        if type(x, list):
+        if isinstance(x, list):
             toks_x = x
             toks_y = y
         else:
