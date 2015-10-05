@@ -68,8 +68,12 @@ class MongeElkan(Feature):
     def extract(self, x, y):
         if x is None or y is None:
             return 0
-        toks_x = x.split()
-        toks_y = y.split()
+        if type(x, list):
+            toks_x = x
+            toks_y = y
+        else:
+            toks_x = x.split()
+            toks_y = y.split()
 
         if len(toks_x) > len(toks_y):
             toks_x, toks_y = toks_y, toks_x
