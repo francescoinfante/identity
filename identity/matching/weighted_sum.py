@@ -10,6 +10,7 @@ class WeightedSum(DataMatching):
 
     def predict(self, comparison_vector):
         score = 0.0
+        print self.configuration
         for k, v in self.configuration.iteritems():
             score += float(v) * float(comparison_vector[k])
 
